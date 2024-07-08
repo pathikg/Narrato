@@ -1,0 +1,2 @@
+# Narrato
+create stories
