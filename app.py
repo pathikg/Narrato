@@ -42,11 +42,17 @@ def main():
         st.sidebar.subheader("Characters")
         characters_df = pd.DataFrame(st.session_state["characters"])
         st.sidebar.table(characters_df)
+        
+    # Add a button to clear characters
+    if st.sidebar.button("Clear Characters"):
+        st.session_state["characters"] = []
+        st.sidebar.success("All characters have been cleared.")
 
     # Generate Story button
     openai_api_key = st.sidebar.text_input(
         "Enter OpenAI API Key (if i'm out of funds)", type="password"
     )
+
     if st.sidebar.button("Generate Story"):
         if not openai_api_key:
             st.sidebar.error("Please enter your OpenAI API Key")
@@ -74,7 +80,7 @@ def main():
             # Call OpenAI API with streaming
             client = OpenAI(api_key=openai_api_key)
             stream = client.chat.completions.create(
-                model="gpt-4o", messages=messages, stream=True, max_tokens=1024
+                model="gpt-4o", messages=messages, stream=True, max_tokens=4096
             )
 
             # Display the story in the center
